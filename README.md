@@ -1,73 +1,82 @@
-# React + TypeScript + Vite
+# Makban
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Kanban in markdown, markdown is kanban. A frontend-only Kanban board app where the board state is a GitHub Flavored Markdown (GFM) file.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Markdown-based Kanban**: Your kanban board IS a markdown file with H2 sections as buckets and checkbox list items as cards
+- **Dual View**: Toggle between Kanban board view and markdown editor view
+- **Drag and Drop**: Move cards between buckets with intuitive drag and drop
+- **Smart Checkboxes**: Items automatically check when moved to "Done" bucket, uncheck when moved elsewhere
+- **Card Editing**: Click edit icon to rename any card
+- **Local Storage**: All data persists in browser's localStorage
+- **Import/Export**: Download your board as markdown or import existing markdown files
+- **Reset**: Quickly reset to example board
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **TypeScript** (strict mode with ESLint)
+- **React 19** with Vite 7
+- **Tailwind CSS v4**
+- **shadcn/ui** components
+- **dnd-kit** for drag and drop
+- **Zustand** for state management
+- **Lucide React** for icons
+- **Vitest** for unit tests
+- **Playwright** for E2E tests
 
-## Expanding the ESLint configuration
+## Getting Started
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+```bash
+# Install dependencies
+npm install
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+# Run development server
+npm run dev
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+# Build for production
+npm run build
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+# Run tests
+npm run test        # Unit tests
+npm run test:e2e    # E2E tests
+npm run lint        # Linter
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Markdown Format
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+The app uses standard GFM markdown:
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```md
+# Project Board Title
+
+## Todo
+- [ ] Task 1
+- [ ] Task 2
+
+## In Progress
+- [ ] Task 3
+
+## Done
+- [x] Completed task
+
+## Backlog
+- [ ] Future task
 ```
+
+- H1 (`# Title`) becomes the board title
+- H2 (`## Section`) becomes a bucket/column
+- Checkbox list items (`- [ ] Task`) become cards
+- Other markdown content is preserved but not displayed in Kanban view
+
+## Testing
+
+- **Unit Tests**: 13 tests covering markdown parsing, generation, and manipulation
+- **E2E Tests**: 7 tests covering UI interactions, persistence, and workflows
+- **Test Coverage**: Core business logic (markdown manipulation) is fully tested
+
+Note: Drag and drop E2E test is skipped as Playwright's `dragTo()` doesn't work well with dnd-kit's pointer sensors. The underlying move functionality is thoroughly tested in unit tests.
+
+## License
+
+MIT

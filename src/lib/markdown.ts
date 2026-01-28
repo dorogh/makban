@@ -141,7 +141,6 @@ export function moveItemInMarkdown(
   let currentBucket = '';
   let itemToMove: { line: string; index: number } | null = null;
   let targetBucketIndex = -1;
-  let fromBucketIndex = -1;
 
   // First pass: find indexes
   for (let i = 0; i < lines.length; i++) {
@@ -152,9 +151,6 @@ export function moveItemInMarkdown(
       currentBucket = h2Match[1].trim();
       if (currentBucket === toBucket) {
         targetBucketIndex = i;
-      }
-      if (currentBucket === fromBucket) {
-        fromBucketIndex = i;
       }
       continue;
     }
