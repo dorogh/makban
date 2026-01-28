@@ -19,14 +19,17 @@ export function KanbanBucket({ bucket, onUpdateLabel }: KanbanBucketProps) {
 
   return (
     <div className="flex-shrink-0 w-80">
-      <Card className={cn(
-        "h-full",
-        isOver && "ring-2 ring-primary"
-      )}>
+      <Card 
+        ref={setNodeRef}
+        className={cn(
+          "h-full min-h-[200px]",
+          isOver && "ring-2 ring-primary"
+        )}
+      >
         <CardHeader>
           <CardTitle className="text-lg">{bucket.name}</CardTitle>
         </CardHeader>
-        <CardContent ref={setNodeRef}>
+        <CardContent>
           <SortableContext items={itemIds} strategy={verticalListSortingStrategy}>
             {bucket.items.map((item) => (
               <KanbanCard

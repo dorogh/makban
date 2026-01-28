@@ -1,4 +1,13 @@
-import { DndContext, DragOverlay, closestCenter, PointerSensor, useSensor, useSensors, type DragEndEvent, type DragStartEvent } from '@dnd-kit/core';
+import { 
+  DndContext, 
+  DragOverlay, 
+  closestCorners, 
+  PointerSensor, 
+  useSensor, 
+  useSensors, 
+  type DragEndEvent, 
+  type DragStartEvent 
+} from '@dnd-kit/core';
 import { useState } from 'react';
 import { KanbanBucket } from '@/components/KanbanBucket';
 import { useAppStore } from '@/store/app-store';
@@ -52,7 +61,7 @@ export function KanbanView() {
   return (
     <DndContext
       sensors={sensors}
-      collisionDetection={closestCenter}
+      collisionDetection={closestCorners}
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
     >

@@ -141,8 +141,9 @@ export function moveItemInMarkdown(
   let currentBucket = '';
   let itemToMove: { line: string; index: number } | null = null;
   let targetBucketIndex = -1;
+  let fromBucketIndex = -1;
 
-  // First pass: find and remove the item
+  // First pass: find indexes
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
 
@@ -152,15 +153,16 @@ export function moveItemInMarkdown(
       if (currentBucket === toBucket) {
         targetBucketIndex = i;
       }
+      if (currentBucket === fromBucket) {
+        fromBucketIndex = i;
+      }
       continue;
     }
 
-    if (currentBucket === fromBucket) {
+    if (currentBucket === fromBucket && !itemToMove) {
       const itemMatch = line.match(/^-\s+\[([ x])\]\s+(.+)$/);
       if (itemMatch && itemMatch[2].trim() === itemLabel) {
         itemToMove = { line, index: i };
-        lines.splice(i, 1);
-        break;
       }
     }
   }
@@ -194,7 +196,16 @@ export function moveItemInMarkdown(
     }
   }
 
-  lines.splice(insertIndex, 0, updatedLine);
+  // Adjust indices based on whether we're moving forward or backward
+  if (itemToMove.index < targetBucketIndex) {
+    // Moving forward: remove first, then insert
+    lines.splice(itemToMove.index, 1);
+    lines.splice(insertIndex - 1, 0, updatedLine);
+  } else {
+    // Moving backward: insert first, then remove
+    lines.splice(insertIndex, 0, updatedLine);
+    lines.splice(itemToMove.index + 1, 1);
+  }
 
   return lines.join('\n');
 }
