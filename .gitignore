@@ -12,6 +12,9 @@ dist
 dist-ssr
 *.local
 
+# TypeScript build info
+*.tsbuildinfo
+
 # Test results
 test-results
 playwright-report

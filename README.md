@@ -1,6 +1,6 @@
 # Makban
 
-Kanban in markdown, markdown is kanban. A frontend-only Kanban board app where the board state is a GitHub Flavored Markdown (GFM) file.
+Kanban in markdown, markdown is kanban. A backend-hosted Kanban board app where the board state is a GitHub Flavored Markdown (GFM) file.
 
 ## Features
 
@@ -15,6 +15,11 @@ Kanban in markdown, markdown is kanban. A frontend-only Kanban board app where t
 
 ## Tech Stack
 
+### Backend
+- **Fastify** - Fast and low overhead web framework
+- **TypeScript** (strict mode)
+
+### Frontend
 - **TypeScript** (strict mode with ESLint)
 - **React 19** with Vite 7
 - **Tailwind CSS v4**
@@ -22,8 +27,21 @@ Kanban in markdown, markdown is kanban. A frontend-only Kanban board app where t
 - **dnd-kit** for drag and drop
 - **Zustand** for state management
 - **Lucide React** for icons
+
+### Testing
 - **Vitest** for unit tests
 - **Playwright** for E2E tests
+
+## Project Structure
+
+```
+/src
+  /backend     - Fastify server that serves the frontend
+  /frontend    - React application
+/dist
+  /backend     - Compiled backend server
+  /public      - Built frontend assets
+```
 
 ## Getting Started
 
@@ -31,17 +49,25 @@ Kanban in markdown, markdown is kanban. A frontend-only Kanban board app where t
 # Install dependencies
 npm install
 
-# Run development server
+# Development (frontend only - recommended for development)
 npm run dev
+
+# Development (with backend)
+npm run dev:backend
 
 # Build for production
 npm run build
+
+# Start production server
+npm start
 
 # Run tests
 npm run test        # Unit tests
 npm run test:e2e    # E2E tests
 npm run lint        # Linter
 ```
+
+The production server runs on port 3000 by default (configurable via PORT environment variable).
 
 ## Markdown Format
 
