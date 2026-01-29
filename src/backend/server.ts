@@ -11,7 +11,7 @@ const fastify = Fastify({
 });
 
 // Serve static files from the built frontend
-const publicPath = path.join(__dirname, '../../dist/public');
+const publicPath = path.join(__dirname, '../public');
 fastify.register(fastifyStatic, {
   root: publicPath,
   prefix: '/',
