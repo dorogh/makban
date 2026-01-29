@@ -1,11 +1,11 @@
-import { useState } from 'react';
-import { useSortable } from '@dnd-kit/sortable';
-import { CSS } from '@dnd-kit/utilities';
-import { Card, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Edit2, Check, X } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { useState } from "react";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Edit2, Check, X, GripVertical } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface KanbanCardProps {
   id: string;
@@ -15,7 +15,12 @@ interface KanbanCardProps {
   onUpdateLabel: (oldLabel: string, newLabel: string) => void;
 }
 
-export function KanbanCard({ id, label, checked, onUpdateLabel }: KanbanCardProps) {
+export function KanbanCard({
+  id,
+  label,
+  checked,
+  onUpdateLabel,
+}: KanbanCardProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [editValue, setEditValue] = useState(label);
 
@@ -51,14 +56,12 @@ export function KanbanCard({ id, label, checked, onUpdateLabel }: KanbanCardProp
       style={style}
       {...attributes}
       {...listeners}
-      className={cn(
-        "mb-2",
-        isDragging && "opacity-50"
-      )}
+      className={cn("mb-2", isDragging && "opacity-50")}
     >
-      <Card>
-        <CardContent className="p-3">
+      <Card className="group">
+        <CardContent>
           <div className="flex items-center gap-2">
+            <GripVertical className="h-4 w-4 -ml-2 opacity-0 group-hover:opacity-50" />
             <input
               type="checkbox"
               checked={checked}
@@ -71,8 +74,8 @@ export function KanbanCard({ id, label, checked, onUpdateLabel }: KanbanCardProp
                   value={editValue}
                   onChange={(e) => setEditValue(e.target.value)}
                   onKeyDown={(e) => {
-                    if (e.key === 'Enter') handleSave();
-                    if (e.key === 'Escape') handleCancel();
+                    if (e.key === "Enter") handleSave();
+                    if (e.key === "Escape") handleCancel();
                   }}
                   className="flex-1"
                   autoFocus

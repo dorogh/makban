@@ -1,16 +1,16 @@
-import { 
-  DndContext, 
-  DragOverlay, 
-  closestCorners, 
-  PointerSensor, 
-  useSensor, 
-  useSensors, 
-  type DragEndEvent, 
-  type DragStartEvent 
-} from '@dnd-kit/core';
-import { useState } from 'react';
-import { KanbanBucket } from '@/components/KanbanBucket';
-import { useAppStore } from '@/store/app-store';
+import {
+  DndContext,
+  DragOverlay,
+  closestCorners,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  type DragEndEvent,
+  type DragStartEvent,
+} from "@dnd-kit/core";
+import { useState } from "react";
+import { KanbanBucket } from "@/components/KanbanBucket";
+import { useAppStore } from "@/store/app-store";
 
 export function KanbanView() {
   const { buckets, moveItem, updateItemLabel } = useAppStore();
@@ -21,7 +21,7 @@ export function KanbanView() {
       activationConstraint: {
         distance: 8,
       },
-    })
+    }),
   );
 
   const handleDragStart = (event: DragStartEvent) => {
@@ -38,13 +38,13 @@ export function KanbanView() {
     const overId = over.id as string;
 
     // Parse the active item's bucket and label
-    const [fromBucket, itemLabel] = activeId.split('::');
-    
+    const [fromBucket, itemLabel] = activeId.split("::");
+
     // If dropped on a bucket name (droppable), use that as the target
     // If dropped on another card, extract the bucket from that card's ID
     let toBucket: string;
-    if (overId.includes('::')) {
-      [toBucket] = overId.split('::');
+    if (overId.includes("::")) {
+      [toBucket] = overId.split("::");
     } else {
       toBucket = overId;
     }
@@ -54,7 +54,11 @@ export function KanbanView() {
     }
   };
 
-  const handleUpdateLabel = (bucketName: string, oldLabel: string, newLabel: string) => {
+  const handleUpdateLabel = (
+    bucketName: string,
+    oldLabel: string,
+    newLabel: string,
+  ) => {
     updateItemLabel(bucketName, oldLabel, newLabel);
   };
 
@@ -65,7 +69,7 @@ export function KanbanView() {
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
     >
-      <div className="flex gap-4 overflow-x-auto p-4">
+      <div className="flex gap-4 flex-wrap p-4">
         {buckets.map((bucket) => (
           <KanbanBucket
             key={bucket.name}
@@ -78,7 +82,7 @@ export function KanbanView() {
         {activeId ? (
           <div className="opacity-50">
             <div className="bg-card border rounded-lg p-3">
-              {activeId.split('::')[1]}
+              {activeId.split("::")[1]}
             </div>
           </div>
         ) : null}

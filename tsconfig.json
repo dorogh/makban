@@ -4,5 +4,11 @@
     { "path": "./tsconfig.frontend.json" },
     { "path": "./tsconfig.backend.json" },
     { "path": "./tsconfig.node.json" }
-  ]
+  ],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/frontend/*"]
+    }
+  }
 }

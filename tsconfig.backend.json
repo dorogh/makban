@@ -2,7 +2,9 @@
   "compilerOptions": {
     "target": "ES2022",
     "module": "NodeNext",
-    "lib": ["ES2022"],
+    "lib": [
+      "ES2022"
+    ],
     "moduleResolution": "NodeNext",
     "skipLibCheck": true,
     "strict": true,
@@ -11,9 +13,13 @@
     "noFallthroughCasesInSwitch": true,
     "esModuleInterop": true,
     "resolveJsonModule": true,
-    "types": ["node"],
+    "types": [
+      "node"
+    ],
     "outDir": "dist/backend",
     "rootDir": "src/backend"
   },
-  "include": ["src/backend/**/*"]
+  "include": [
+    "src/backend/**/*"
+  ]
 }

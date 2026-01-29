@@ -19,9 +19,9 @@ export interface ParsedMarkdown {
  * Parse markdown content into buckets and items
  */
 export function parseMarkdown(content: string): ParsedMarkdown {
-  const lines = content.split('\n');
+  const lines = content.split("\n");
   const buckets: MarkdownBucket[] = [];
-  let title = '';
+  let title = "";
   let currentBucket: MarkdownBucket | null = null;
 
   for (const line of lines) {
@@ -40,7 +40,7 @@ export function parseMarkdown(content: string): ParsedMarkdown {
       }
       currentBucket = {
         name: h2Match[1].trim(),
-        items: []
+        items: [],
       };
       continue;
     }
@@ -50,8 +50,8 @@ export function parseMarkdown(content: string): ParsedMarkdown {
     if (itemMatch && currentBucket) {
       currentBucket.items.push({
         label: itemMatch[2].trim(),
-        checked: itemMatch[1] === 'x',
-        originalLine: line
+        checked: itemMatch[1] === "x",
+        originalLine: line,
       });
     }
   }
@@ -62,25 +62,28 @@ export function parseMarkdown(content: string): ParsedMarkdown {
   }
 
   return {
-    title: title || 'Untitled',
+    title: title || "Untitled",
     buckets,
-    rawContent: content
+    rawContent: content,
   };
 }
 
 /**
  * Generate markdown from buckets
  */
-export function generateMarkdown(title: string, buckets: MarkdownBucket[]): string {
+export function generateMarkdown(
+  title: string,
+  buckets: MarkdownBucket[],
+): string {
   let markdown = `# ${title}\n\n`;
 
   for (const bucket of buckets) {
     markdown += `## ${bucket.name}\n`;
     for (const item of bucket.items) {
-      const checkbox = item.checked ? '[x]' : '[ ]';
+      const checkbox = item.checked ? "[x]" : "[ ]";
       markdown += `- ${checkbox} ${item.label}\n`;
     }
-    markdown += '\n';
+    markdown += "\n";
   }
 
   return markdown.trim();
@@ -94,9 +97,9 @@ export function updateMarkdownItem(
   bucketName: string,
   oldLabel: string,
   newLabel: string,
-  newChecked?: boolean
+  newChecked?: boolean,
 ): string {
-  const lines = content.split('\n');
+  const lines = content.split("\n");
   let inTargetBucket = false;
   let updated = false;
 
@@ -114,9 +117,12 @@ export function updateMarkdownItem(
     if (inTargetBucket) {
       const itemMatch = line.match(/^-\s+\[([ x])\]\s+(.+)$/);
       if (itemMatch && itemMatch[2].trim() === oldLabel) {
-        const checkbox = newChecked !== undefined 
-          ? (newChecked ? '[x]' : '[ ]')
-          : `[${itemMatch[1]}]`;
+        const checkbox =
+          newChecked !== undefined
+            ? newChecked
+              ? "[x]"
+              : "[ ]"
+            : `[${itemMatch[1]}]`;
         lines[i] = `- ${checkbox} ${newLabel}`;
         updated = true;
         break;
@@ -124,7 +130,7 @@ export function updateMarkdownItem(
     }
   }
 
-  return updated ? lines.join('\n') : content;
+  return updated ? lines.join("\n") : content;
 }
 
 /**
@@ -135,10 +141,10 @@ export function moveItemInMarkdown(
   fromBucket: string,
   toBucket: string,
   itemLabel: string,
-  autoCheck?: boolean
+  autoCheck?: boolean,
 ): string {
-  const lines = content.split('\n');
-  let currentBucket = '';
+  const lines = content.split("\n");
+  let currentBucket = "";
   let itemToMove: { line: string; index: number } | null = null;
   let targetBucketIndex = -1;
 
@@ -172,13 +178,13 @@ export function moveItemInMarkdown(
   if (autoCheck !== undefined) {
     shouldCheck = autoCheck;
   } else {
-    shouldCheck = toBucket.toLowerCase().includes('done');
+    shouldCheck = toBucket.toLowerCase().includes("done");
   }
 
   // Update the checkbox state
   const updatedLine = itemToMove.line.replace(
     /^-\s+\[([ x])\]/,
-    `- [${shouldCheck ? 'x' : ' '}]`
+    `- [${shouldCheck ? "x" : " "}]`,
   );
 
   // Find the insertion point (after the last item in target bucket or after bucket header)
@@ -187,7 +193,7 @@ export function moveItemInMarkdown(
     if (lines[i].match(/^##\s+/)) {
       break;
     }
-    if (lines[i].trim() !== '') {
+    if (lines[i].trim() !== "") {
       insertIndex = i + 1;
     }
   }
@@ -203,13 +209,15 @@ export function moveItemInMarkdown(
     lines.splice(itemToMove.index + 1, 1);
   }
 
-  return lines.join('\n');
+  return lines.join("\n");
 }
 
 /**
  * Create a default example markdown
  */
-export function createExampleMarkdown(projectName: string = 'Makban Project Board'): string {
+export function createExampleMarkdown(
+  projectName: string = "Makbany Project Board",
+): string {
   return `# ${projectName}
 
 ## Todo
